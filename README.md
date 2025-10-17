@@ -76,14 +76,32 @@
 ## Инструкция по запуску
 
 ### Требования:
-- Ruby 3.2.4+
+- **Ruby 3.2.4+** ИЛИ **Docker**
 - Файлы данных: vms.csv, volumes.csv, prices.csv
 
 ### Запуск:
-
+### Способ 1: Запуск через Ruby 
+```bash
 # Клонирование репозитория
 git clone <url-репозитория>
 cd hw1
 
+# Установка зависимостей
+gem install terminal-table
+
 # Запуск программы
 ruby main.rb
+```
+### Способ 2: Запуск через Docker 
+```bash
+# Клонирование репозитория
+git clone <url-репозитория>
+cd hw1
+
+# Запуск в контейнере Docker
+docker run --rm -it \
+  -v "$(pwd):/app" \
+  -w /app \
+  ruby:latest \
+  bash -c "gem install terminal-table && ruby main.rb"
+```

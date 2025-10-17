@@ -1,43 +1,43 @@
+# Добавьте в начало main.rb
+require 'terminal-table'
+
 class ReportPresenter
   def self.print(report)
     result = report.generate
-    return if result.nil? || result.empty?
-    puts "\n#{report.get_report_name}"
-    puts "=" * 60
-    
-    result.each_with_index do |vm, index|
-      puts "#{index + 1}. Виртуальная машина: #{vm[:vm_id]}"
-      puts "   Основные характеристики:"
-      puts "   - Процессор: #{vm[:cpu]} ядер"
-      puts "   - Оперативная память: #{vm[:ram]} GB"
-      puts "   - Основной диск: #{vm[:hdd_capacity]} GB (#{vm[:hdd_type]})"
-      
-      # Дополнительные диски
-      if vm[:other_hdd] && !vm[:other_hdd].empty?
-        puts "   Дополнительные диски:"
-        vm[:other_hdd].each do |hdd|
-          puts "   - #{hdd[:hdd_capacity]} GB (#{hdd[:type]})"
-        end
-        puts "   Всего дополнительных дисков: #{vm[:other_hdd].size}"
-      else
-        puts "   Дополнительные диски: отсутствуют"
-      end
-      
-      # Специфичные метрики для разных отчетов
-      if vm[:other_volumes_count]
-        puts "   Количество доп. дисков: #{vm[:other_volumes_count]}"
-      end
-      
-      if vm[:other_volumes_sum]
-        puts "   Объем доп. дисков: #{vm[:other_volumes_sum]} GB"
-      end
-      
-      if vm[:total_capacity]
-        puts "   Общий объем: #{vm[:total_capacity]} GB"
-      end
-      
-      puts "   Общая стоимость: #{vm[:total_price].round(2)} руб."
-      puts "-" * 40
+    if result.nil? || result.empty?
+      puts "\n#{report.get_report_name}"
+      puts "Нет данных для отображения"
+      return
     end
+    
+    table = Terminal::Table.new do |t|
+      t.title = report.get_report_name #заголовок таблицы 
+      t.headings = ['VM ID', 'CPU', 'RAM', 'Main HDD', 'HDD Type', 'Additional Volumes', 'Total Price']# названия столбцов
+      t.rows = result.map do |vm|
+        [
+          vm[:vm_id],
+          vm[:cpu],
+          "#{vm[:ram]} GB",
+          "#{vm[:hdd_capacity]} GB",
+          vm[:hdd_type],
+          format_volumes(vm[:other_hdd]),
+          "#{vm[:total_price].round(2)} руб."
+        ]# преобразование данных из каждой вмки в формат для таблицы
+      end
+    end
+    
+    puts table
+  end
+  
+  private
+  
+  def self.format_volumes(other_hdd)
+    return "нет" if other_hdd.nil? || other_hdd.empty?
+    
+    volumes_by_type = other_hdd.group_by { |hdd| hdd[:type] }
+    volumes_by_type.map { |type, hdds| 
+      total = hdds.sum { |hdd| hdd[:hdd_capacity].to_i }
+      "#{type}: #{total}GB"
+    }.join(", ")
   end
 end

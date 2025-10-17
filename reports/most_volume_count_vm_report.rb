@@ -1,7 +1,9 @@
 class MostVolumeCountVMReport < BaseVMReport
-    
+  VALID_HDD = ['sas', 'ssd', 'sata'].freeze
+  
   def initialize(vm_info_loader, limit = 5, hdd_type = nil)
     super(vm_info_loader, limit)
+    validate_type!(hdd_type)
     @hdd_type = hdd_type
   end
   
@@ -21,7 +23,16 @@ class MostVolumeCountVMReport < BaseVMReport
       .sort_by { |vm| -vm[:other_volumes_count] }  # сортируем по убыванию количества
       .take(@limit)  # берем первые n
   end
+
   def get_report_name
     @hdd_type ? "#{@limit} ВМ с наибольшим количеством дополнительных дисков типа #{@hdd_type}": "#{@limit} ВМ с наибольшим количеством дополнительных дисков"
+  end
+
+  private
+  def validate_type! type
+    return if type.nil?
+    unless VALID_HDD.include?(type)
+      raise ArgumentError, "Неверно указан параметр: #{type}. Доступные параметры: #{VALID_HDD.join(', ')}"
+    end
   end
 end

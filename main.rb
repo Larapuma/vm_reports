@@ -25,7 +25,11 @@ require_relative 'presenter/report_presenter'
 
 
 
-# ТЕСТЫ
+
+
+
+
+ #ТЕСТЫ
 vm_info_loader = VMInfoLoader.new("data/vms.csv", "data/volumes.csv", "data/prices.csv")
 
 reports = [
@@ -37,7 +41,7 @@ reports = [
   MostVolumeVMReport.new(vm_info_loader, 3, "ssd"),
   MostVolumeCountVMReport.new(vm_info_loader, 3),
   MostVolumeCountVMReport.new(vm_info_loader, 3, "sas"),
-  LargestOtherCapacityVMReport.new(vm_info_loader, 3),
+  LargestOtherCapacityVMReport.new(vm_info_loader, 3,"sas"),
   LargestOtherCapacityVMReport.new(vm_info_loader, 3, "ssd")
 ]
 
@@ -45,3 +49,5 @@ reports = [
 reports.each do |report|
   ReportPresenter.print(report)
 end
+
+

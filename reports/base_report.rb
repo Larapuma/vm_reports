@@ -1,4 +1,7 @@
 class BaseVMReport
+  VALID_TYPES = ['cpu', 'ram', 'sas', 'ssd', 'sata'].freeze
+
+
   def initialize(vm_info_loader, limit = 5)
     @vm_info_loader = vm_info_loader
     @limit = limit

@@ -1,6 +1,7 @@
 class MostVolumeVMReport < BaseVMReport
   def initialize(vm_info_loader, limit = 5, type)
     super(vm_info_loader, limit)
+    validate_type!(type)
     @type = type
   end
 
@@ -26,6 +27,13 @@ class MostVolumeVMReport < BaseVMReport
   end
 
   private
+  def validate_type! type
+    unless VALID_TYPES.include?(type)
+      raise ArgumentError, "Неверно указан параметр: #{type}. Доступные параметры: #{VALID_TYPES.join(', ')}"
+    end
+  end
+
+
   def other_hdd_capacity(vm, hdd_type)
     vm[:other_hdd].select { |hdd| hdd[:type] == hdd_type }
                   .sum { |hdd| hdd[:hdd_capacity].to_i }
