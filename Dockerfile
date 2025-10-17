@@ -1,0 +1,7 @@
+FROM ruby:3.0
+WORKDIR /app
+COPY . .
+ENV DEFAULT_REPORT=all
+ENV DEFAULT_LIMIT=10
+
+ENTRYPOINT ["ruby", "main.rb"]
