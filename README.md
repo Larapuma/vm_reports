@@ -98,10 +98,13 @@ ruby main.rb
 git clone <url-репозитория>
 cd hw1
 
-# Запуск в контейнере Docker
-docker run --rm -it \
-  -v "$(pwd):/app" \
-  -w /app \
-  ruby:latest \
-  bash -c "gem install terminal-table && ruby main.rb"
+# Сборка докер образа
+docker build -t <имя-образа> .
+
+# Запуск контейнера с параметрами по умолчанию
+docker run --rm <имя-образа> 
+# Запуск контейнера с указанным названием отчёта
+docker run --rm <имя-образа> <имя-отчёта>
+# Запуск контейнера с указанным названием отчёта и числом отчётов
+docker run --rm <имя-образа> <имя-отчёта> <число-отчётов>
 ```

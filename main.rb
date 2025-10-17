@@ -34,11 +34,23 @@ require './router/report_router.rb'
 vm_info_loader = VMInfoLoader.new("data/vms.csv", "data/volumes.csv", "data/prices.csv")
 router = ReportRouter.new(vm_info_loader)
 
-unless ARGV.nil?
-  router.generate_report(ARGV[0],ARGV[1])
-else
-  router.generate_report(ENV["DEFAULT_REPORT"],ENV["DEFAULT_LIMIT"])
-end
+
+
+report_type = if ARGV[0] && !ARGV[0].empty?
+                ARGV[0]  
+              else
+                ENV["DEFAULT_REPORT"] 
+              end
+
+limit = if ARGV[1] && !ARGV[1].empty?
+          ARGV[1]  
+        else
+          ENV["DEFAULT_LIMIT"]
+        end
+
+
+router.generate_report(report_type,limit)
+
 
 #ТЕСТЫ
 # reports = [
