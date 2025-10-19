@@ -1,7 +1,3 @@
-require 'csv'
-require_relative 'loader'
-require_relative '../models/vm'
-
 class VMLoader < Loader  
   def find_by_id(id)
     @data.find {|vm| vm.id == id}

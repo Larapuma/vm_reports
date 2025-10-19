@@ -1,7 +1,3 @@
-require_relative 'volume_loader'
-require_relative 'price_loader'
-require_relative 'vm_loader'
-
 class VMInfoLoader
   def initialize(vms_path, volume_path, price_path)
     @vm_loader = VMLoader.new(vms_path)

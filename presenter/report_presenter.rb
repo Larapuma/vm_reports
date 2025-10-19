@@ -1,6 +1,3 @@
-# Добавьте в начало main.rb
-require 'terminal-table'
-
 class ReportPresenter
   def self.print(report)
     result = report.generate
@@ -21,7 +18,7 @@ class ReportPresenter
           "#{vm[:hdd_capacity]} GB",
           vm[:hdd_type],
           format_volumes(vm[:other_hdd]),
-          "#{vm[:total_price].round(2)} руб."
+          "#{vm[:total_price]/100} руб. #{(vm[:total_price]%100)} коп."
         ]# преобразование данных из каждой вмки в формат для таблицы
       end
     end

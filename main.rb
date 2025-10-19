@@ -1,53 +1,35 @@
+require 'terminal-table'
 require 'csv'
 
 # Загрузка всех необходимых файлов
-require_relative 'models/vm'
-require_relative 'models/price'
-require_relative 'models/volume'
+require './models/vm.rb'
+require './models/price.rb'
+require './models/volume.rb'
 
-require_relative 'loaders/loader'
-require_relative 'loaders/vm_loader'
-require_relative 'loaders/price_loader'
-require_relative 'loaders/volume_loader'
-require_relative 'loaders/vm_info_loader'
+require './loaders/loader.rb'
+require './loaders/vm_loader.rb'
+require './loaders/price_loader.rb'
+require './loaders/volume_loader.rb'
+require './loaders/vm_info_loader.rb'
 
-require_relative 'calculators/other_hdd_price_calculator'
-require_relative 'calculators/vm_price_calculator'
+require './calculators/other_hdd_price_calculator.rb'
+require './calculators/vm_price_calculator.rb'
 
-require_relative 'reports/base_report'
-require_relative 'reports/most_expensive_vm_report'
-require_relative 'reports/cheapest_vm_report'
-require_relative 'reports/most_volume_vm_report'
-require_relative 'reports/most_volume_count_vm_report'
-require_relative 'reports/largest_othet_capacity_vm_report'
+require './reports/base_report.rb'
+require './reports/most_expensive_vm_report.rb'
+require './reports/cheapest_vm_report.rb'
+require './reports/most_volume_vm_report.rb'
+require './reports/most_volume_count_vm_report.rb'
+require './reports/largest_other_capacity_vm_report.rb'
 
-require_relative 'presenter/report_presenter'
-
-
-
+require './presenter/report_presenter.rb'
+require './manager/report_manager.rb'
 
 
-
-
- #ТЕСТЫ
 vm_info_loader = VMInfoLoader.new("data/vms.csv", "data/volumes.csv", "data/prices.csv")
-
-reports = [
-  MostExpensiveVMReport.new(vm_info_loader, 3),
-  CheapestVMReport.new(vm_info_loader, 3),
-  MostVolumeVMReport.new(vm_info_loader, 3, "cpu"),
-  MostVolumeVMReport.new(vm_info_loader, 3, "ram"), 
-  MostVolumeVMReport.new(vm_info_loader, 3, "sas"),
-  MostVolumeVMReport.new(vm_info_loader, 3, "ssd"),
-  MostVolumeCountVMReport.new(vm_info_loader, 3),
-  MostVolumeCountVMReport.new(vm_info_loader, 3, "sas"),
-  LargestOtherCapacityVMReport.new(vm_info_loader, 3,"sas"),
-  LargestOtherCapacityVMReport.new(vm_info_loader, 3, "ssd")
-]
-
-# Запуск всех отчетов
-reports.each do |report|
-  ReportPresenter.print(report)
-end
+manager = ReportManager.new(vm_info_loader)
 
 
+report_name = ARGV[0]
+limit = ARGV[1].to_i
+manager.show_report(report_name,limit)

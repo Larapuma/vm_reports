@@ -1,5 +1,3 @@
-require 'csv'
-
 class Loader
   def initialize(path)
     @data = []

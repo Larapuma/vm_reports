@@ -1,7 +1,3 @@
-require 'csv'
-require_relative 'loader'
-require_relative '../models/price'
-
 class PriceLoader < Loader  
   def find_by_type(type)
     @data.find {|price| price.type == type}

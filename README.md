@@ -73,6 +73,38 @@
 - Методы:
   - print(report) - статический метод для вывода отчета в консоль
 
+### 7. Менеджер отчетов
+
+#### `ReportManager`
+- Управление генерацией и отображением отчетов
+- Регистрирует все доступные типы отчетов
+Методы:
+- show_report(report_name, limit) - основной метод для отображения отчетов
+  - Поддерживает специальную команду `all` для показа всех отчетов
+  - Валидирует входные параметры
+  - Обрабатывает ошибки с информативными сообщениями
+- available_reports - возвращает список доступных отчетов
+- show_all_reports(limit) - приватный метод для отображения всех отчетов
+- is_digit?(num) - проверяет корректность числового параметра
+
+**Поддерживаемые отчеты:**
+- `most_expensive` - самые дорогие ВМ
+- `cheapest` - самые дешевые ВМ  
+- `most_volume_cpu` - ВМ с наибольшим CPU
+- `most_volume_ram` - ВМ с наибольшей RAM
+- `most_volume_sas` - ВМ с наибольшим объемом SAS дисков
+- `most_volume_ssd` - ВМ с наибольшим объемом SSD дисков
+- `most_volume_count` - ВМ с наибольшим количеством доп. дисков
+- `most_volume_count_sas` - ВМ с наибольшим количеством SAS доп. дисков
+- `most_volume_count_ssd` - ВМ с наибольшим количеством SSD доп. дисков
+- `most_volume_count_sata` - ВМ с наибольшим количеством SATA доп. дисков
+- `largest_other_capacity` - ВМ с наибольшим объемом доп. дисков
+- `largest_other_capacity_sas` - ВМ с наибольшим объемом SAS доп. дисков
+- `largest_other_capacity_ssd` - ВМ с наибольшим объемом SSD доп. дисков
+- `largest_other_capacity_sata` - ВМ с наибольшим объемом SATA доп. дисков
+
+
+
 ## Инструкция по запуску
 
 ### Требования:
@@ -90,7 +122,7 @@ cd hw1
 gem install terminal-table
 
 # Запуск программы
-ruby main.rb
+ruby main.rb <название-отчёта> <число-отчётов>
 ```
 ### Способ 2: Запуск через Docker 
 ```bash
@@ -102,6 +134,6 @@ cd hw1
 docker run --rm -it \
   -v "$(pwd):/app" \
   -w /app \
-  ruby:latest \
-  bash -c "gem install terminal-table && ruby main.rb"
+  ruby:3.2.4 \
+  bash -c "gem install terminal-table && ruby main.rb <название-отчёта> <число-отчётов>"
 ```
