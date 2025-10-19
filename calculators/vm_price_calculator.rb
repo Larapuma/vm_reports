@@ -21,10 +21,5 @@ class VMPriceCalculator
 
     total
   end
-  private 
-  def convert_to_rub(total)
-    total/100
-  end
   
-
 end
